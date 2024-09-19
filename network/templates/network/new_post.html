@@ -1,0 +1,22 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<form action="{% url 'new' %}" method="post">
+    
+    {% csrf_token %}
+    {% if message %}
+    <div class="alert alert-danger" role="alert">
+        <h1 style="text-align: center;">{{ message }}</h1>
+    </div>
+    {% endif %}
+    <div class="card">
+        <div class="card-body">
+        <h3 class="card-title">New Post</h3>
+        <p><label for="exampleFormControlTextarea1"></label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" autofocus name="text"></textarea>
+            </p>
+        <button type="submit" class="btn btn-primary">Post</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
