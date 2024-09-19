@@ -9,7 +9,10 @@ from .models import User, Post, Follow
 
 
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by("-time")
+    p = Paginator(posts, 10)
+    page = request.GET.get("page")
+    posts = p.get_page(page)
     return render(request, "network/index.html", {
         "posts" : posts
     })
@@ -21,15 +24,14 @@ def following(request):
         user = i['followed_id']
         user = User.objects.get(pk=user)
         users.append(user)
-    print(users)
     posts = []
     for user in users:
        user = User.objects.get(username=user)
        post = Post.objects.all().filter(user=user)
-       posts.append(post)
-    print(posts)
-       
-
+       posts.extend(post)
+    p = Paginator(posts, 10)
+    page = request.GET.get("page")
+    posts = p.get_page(page)  
     return render(request, "network/index.html",{
         "posts" : posts,
         "token" : 1,

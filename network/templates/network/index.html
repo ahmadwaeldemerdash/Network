@@ -1,31 +1,11 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-  {% if token and token == 1 and user.is_authenticated %}
+  {% if token == 1 %}
     <h1>Following</h1>
-    {% if posts %}
-        {% for post in posts %}
-        {% for i in post %}
-          <p>
-          <div class="card"> 
-              <div class="card-body">
-              <h5 class="card-title"><a href="{% url 'profile' i.user.username %}"><strong>{{ i.user.username }}</strong></a></h5>
-                <p class="card-text">
-                  <div>{{ i.text }}</div>
-                  <div>{{ i.time }}</div>
-                  <div>{{ i.likes }}</div>
-              </p>
-              </div>
-            </div>
-          </p>
-          {% endfor %}
-        {% endfor %}
-    {% endif %}
-  {% elif not user.is_authenticated and token == 1 %}
-        <h1>You Must be signed in to view this page!</h1>
-  
   {% else %}
-  <h1>All Posts</h1>
+    <h1>All Posts</h1>
+  {% endif %}
     {% if posts %}
         {% for post in posts %}
         <p>
@@ -41,6 +21,11 @@
           </div>
         </p>
         {% endfor %}
+    {% endif %}
+  {% if posts.has_previous %}
+  <a href="?page={{ posts.previous_page_number }}" class="page-link">Previous</a>
   {% endif %}
+  {% if posts.has_next %}
+  <a href="?page={{ posts.next_page_number }}" class="page-link">Next</a>
   {% endif %}
 {% endblock %}
