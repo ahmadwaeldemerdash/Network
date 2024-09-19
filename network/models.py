@@ -16,6 +16,3 @@ class Follow(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
     followed = models.ForeignKey(User, on_delete=models.CASCADE, related_name="followed")
 
-#Follow.objects.all().filter(user=ahmad.id).count()
-#Follow.objects.get(follower=harry.id, followed=ahmad.id)  
-#Follow.objects.all().filter(follower=harry)

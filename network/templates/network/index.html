@@ -1,5 +1,5 @@
 {% extends "network/layout.html" %}
-
+{% load static %}
 {% block body %}
   {% if token == 1 %}
     <h1>Following</h1>
@@ -13,9 +13,13 @@
              <div class="card-body">
               <h5 class="card-title"><a href="{% url 'profile' post.user.username %}"><strong>{{ post.user.username }}</strong></a></h5>
               <p class="card-text">
-                <div>{{ post.text }}</div>
+                <div id="content" data-id="{{ post.id }}">{{ post.text }}</div>
                 <div>{{ post.time }}</div>
                 <div>{{ post.likes }}</div>
+                {% if post.user.username|upper == request.user.username|upper %}
+                  <p><button id="edit" class="btn btn-primary" data-id="{{ post.id }}">Edit</button></p>
+                  <button id="save" class="btn btn-primary" style="display: none;" data-id="{{ post.id }}">Save</button>
+                {% endif %}
             </p>
             </div>
           </div>
@@ -28,4 +32,9 @@
   {% if posts.has_next %}
   <a href="?page={{ posts.next_page_number }}" class="page-link">Next</a>
   {% endif %}
+
+  {% block script %}
+    <script src="{% static 'network/network.js' %}"></script>
+  {% endblock %}
+
 {% endblock %}

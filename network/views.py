@@ -36,7 +36,6 @@ def following(request):
         "posts" : posts,
         "token" : 1,
     })
-        
 
 def login_view(request):
     if request.method == "POST":
