@@ -15,7 +15,9 @@
               <p class="card-text">
                 <div id="content" data-id="{{ post.id }}">{{ post.text }}</div>
                 <div>{{ post.time }}</div>
-                <div>{{ post.likes }}</div>
+                <div id="likes" data-id="{{ post.id }}">{{ post.likes }}</div>
+                <p><a href="#" id="like" data-id="{{ post.id }}"><i class="fa-regular fa-heart"></i></a></p>
+                <p><a href="#" id="heart" data-id="{{ post.id }}" style="display: none;"><i class="fa-solid fa-heart"></i></a></p>
                 {% if post.user.username|upper == request.user.username|upper %}
                   <p><button id="edit" class="btn btn-primary" data-id="{{ post.id }}">Edit</button></p>
                   <button id="save" class="btn btn-primary" style="display: none;" data-id="{{ post.id }}">Save</button>

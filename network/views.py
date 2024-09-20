@@ -3,7 +3,9 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
+from django.http import JsonResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from .models import User, Post, Follow
 
@@ -140,4 +142,17 @@ def follow(request):
             db.delete()
             url = reverse("profile", args=[followed])
             return HttpResponseRedirect(url)
-            
+@csrf_exempt
+def like_post(request, id):
+    post = Post.objects.get(pk=id)
+    if request.method == 'PUT': 
+        data = json.loads(request.body)
+        if data.get('likes') > 0: 
+            post.likes += data['likes']  
+            post.save()
+        return HttpResponse(status=204)
+    
+    elif request.method == 'GET':
+        return JsonResponse(post.serialize())
+
+

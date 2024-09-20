@@ -20,5 +20,26 @@ document.addEventListener('DOMContentLoaded', function (){
             }
         })
     })
+    const likes = document.querySelectorAll('#like');
+    likes.forEach(function(like){
+        like.onclick = function(){
+            id = like.dataset.id
+            const div = document.querySelector(`[id="likes"][data-id="${id}"]`)
+            value = parseInt(div.innerHTML, 10);
+            result = 1 + value
+            result = result.toString();
+            div.innerHTML = ''
+            div.innerHTML = result;
+            document.querySelector(`[id="like"][data-id="${id}"]`).style.display = 'none';
+            document.querySelector(`[id="heart"][data-id="${id}"]`).style.display = 'block';
+            fetch(`like/${id}`,{
+                method: 'PUT',
+                body: JSON.stringify({
+                    likes: 1    
+                })
+            })
+        }
+    })
+    
     
 })
