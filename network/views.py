@@ -143,15 +143,18 @@ def follow(request):
             url = reverse("profile", args=[followed])
             return HttpResponseRedirect(url)
 @csrf_exempt
-def like_post(request, id):
+def change_post(request, id):
     post = Post.objects.get(pk=id)
     if request.method == 'PUT': 
         data = json.loads(request.body)
-        if data.get('likes') > 0: 
+        if data.get('likes') is not None and data.get('likes') > 0: 
             post.likes += data['likes']  
             post.save()
+        if data.get('content') is not None and data.get('content') != "":
+            post.text = data['content']
+            post.save()
         return HttpResponse(status=204)
-    
+        
     elif request.method == 'GET':
         return JsonResponse(post.serialize())
 

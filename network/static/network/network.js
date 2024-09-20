@@ -17,6 +17,12 @@ document.addEventListener('DOMContentLoaded', function (){
                 content.innerHTML = '';
                 content.innerHTML = text;
                 save.style.display = 'none';
+                fetch(`change/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        content: text
+                    })
+                })
             }
         })
     })
